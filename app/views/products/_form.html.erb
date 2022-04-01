@@ -1,0 +1,10 @@
+<%= simple_form_for(@product) do |f| %>
+  <div class="form-group my-3 col-12 col-sm-8 col-xl-6", style="margin: 0 auto;">
+      <%= f.input :name, class: "form-control", placeholder: "What is it called?" %>
+      <%= f.input :description, class: "form-control", placeholder: "Describe your product" %>
+      <%= f.input :price, class: "form-control", placeholder: "Name your price" %>
+      <%= f.input :description, class: "form-control", placeholder: "Add a description" %>
+      <%= f.input :wait_time, as: :integer, class: "form-control", label: "Wait time (days)", placeholder: "wait time?" %>
+    <%= f.submit "Add product", class: "btn btn-primary mb-3 w-100" %>
+  </div>
+<% end %>
