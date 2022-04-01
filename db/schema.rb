@@ -10,18 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_26_151342) do
+ActiveRecord::Schema.define(version: 2022_04_01_135826) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "order_items", force: :cascade do |t|
-    t.bigint "order_id", null: false
+  create_table "cart_items", force: :cascade do |t|
+    t.integer "quantity"
     t.bigint "product_id", null: false
+    t.bigint "cart_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["order_id"], name: "index_order_items_on_order_id"
-    t.index ["product_id"], name: "index_order_items_on_product_id"
+    t.index ["cart_id"], name: "index_cart_items_on_cart_id"
+    t.index ["product_id"], name: "index_cart_items_on_product_id"
+  end
+
+  create_table "carts", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "orders", force: :cascade do |t|
@@ -30,6 +36,8 @@ ActiveRecord::Schema.define(version: 2022_03_26_151342) do
     t.date "date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "cart_id", null: false
+    t.index ["cart_id"], name: "index_orders_on_cart_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -38,6 +46,7 @@ ActiveRecord::Schema.define(version: 2022_03_26_151342) do
     t.string "price"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "wait_time"
   end
 
   create_table "users", force: :cascade do |t|
@@ -52,6 +61,7 @@ ActiveRecord::Schema.define(version: 2022_03_26_151342) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "order_items", "orders"
-  add_foreign_key "order_items", "products"
+  add_foreign_key "cart_items", "carts"
+  add_foreign_key "cart_items", "products"
+  add_foreign_key "orders", "carts"
 end
